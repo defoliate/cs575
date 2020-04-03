@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifndef NUMT
 #define NUMT	         4
+#endif
 #define SIZE       	66666	// you decide
 #define NUMTRIES        600	 // you decide
 
