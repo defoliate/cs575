@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <math.h>
 
-#ifndef NUMT
+//#ifndef NUMT
+#define NUMTA 1
 #define NUMT	         4
-#endif
-#define SIZE       	66666	// you decide
-#define NUMTRIES        600	 // you decide
+//#endif
+#define SIZE       	600000	// you decide
+#define NUMTRIES        1000	 // you decide
 
 float A[SIZE];
 float B[SIZE];
@@ -37,7 +38,7 @@ main()
         double time0 = omp_get_wtime();
         int i;
 #pragma omp parallel for private  (i)
-        for ( i = 0; i < SIZE; i++)
+        for (i = 0; i < SIZE; i++)
         {
             C[i] = A[i] * B[i];
         }
@@ -49,6 +50,32 @@ main()
     }
 
     printf("Peak Performance = %8.2lf MegaMults/Sec\n", maxMegaMults);
+    omp_set_num_threads(NUMTA);
+    fprintf(stderr, "Using %d threads\n", NUMTA);
+
+    double maxMegaMultsA = 0.;
+
+    for (int t = 0; t < NUMTRIES; t++)
+    {
+        double time0 = omp_get_wtime();
+        int i;
+#pragma omp parallel for private  (i)
+        for (i = 0; i < SIZE; i++)
+        {
+            C[i] = A[i] * B[i];
+        }
+
+        double time1 = omp_get_wtime();
+        double megaMultsA = (double)SIZE / (time1 - time0) / 1000000.;
+        if (megaMultsA > maxMegaMultsA)
+            maxMegaMultsA = megaMultsA;
+    }
+
+    printf("Peak Performance = %8.2lf MegaMults/Sec\n", maxMegaMultsA);
+
+    float S = maxMegaMults/ maxMegaMultsA;
+    float Fp = (4. / 3.) * (1. - (1. / S));
+    printf("S=%f,Fp=%f", S, Fp);
 
     // note: %lf stands for "long float", which is how printf prints a "double"
     //        %d stands for "decimal integer", not "double"
