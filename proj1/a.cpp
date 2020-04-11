@@ -1,6 +1,7 @@
-#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include <stdlib.h>
+#include<stdio.h>
 #include <time.h>
 #include <omp.h>
 
