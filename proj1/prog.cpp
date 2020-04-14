@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,7 +69,8 @@ int main( int argc, char *argv[ ] )
 	fprintf( stderr, "No OpenMP support!\n" );
 	return 1;
 #endif
-
+	
+	float tn = tan( (M_PI/180.)*30. );
 	TimeOfDaySeed( );		// seed the random number generator
 
 	omp_set_num_threads( NUMT );	// set the number of threads to use in the for-loop:`
@@ -97,7 +99,7 @@ int main( int argc, char *argv[ ] )
 
         int numHits = 0;
 
-		#pragma omp parallel for default(none) shared(xcs,ycs,rs) reduction(+:numHits)
+		#pragma omp parallel for default(none) shared(xcs,ycs,rs,tn) reduction(+:numHits)
 		for( int n = 0; n < NUMTRIALS; n++ )
 		{
 			// randomize the location and radius of the circle:
@@ -106,8 +108,8 @@ int main( int argc, char *argv[ ] )
 			float  r =  rs[n];
 
 			// solve for the intersection using the quadratic formula:
-			float a = 2.;
-			float b = -2.*( xc + yc );
+			float a = 1.+tn*tn;
+			float b = -2.*( xc + yc*tn );
 			float c = xc*xc + yc*yc - r*r;
 			float d = b*b - 4.*a*c;
 
@@ -126,14 +128,14 @@ int main( int argc, char *argv[ ] )
 
 			// where does it intersect the circle?
 			float xcir = tmin;
-			float ycir = tmin;
+			float ycir = tmin*tn;
 
 			// get the unitized normal vector at the point of intersection:
 			float nx = xcir - xc;
 			float ny = ycir - yc;
 			float n = sqrt( nx*nx + ny*ny );
-			nx /= n;	// unit vector
-			ny /= n;	// unit vector
+			nx /= nxy;	// unit vector
+			ny /= nxy;	// unit vector
 
 			// get the unitized incoming vector:
 			float inx = xcir - 0.;
