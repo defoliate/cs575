@@ -18,8 +18,10 @@ if(not os.path.exists(outputPath) or input("Path exists. ReRun? (Y)") == "Y"):
     for trial in trials:
         for thread in threads:
             print("Number of trials: %d Number of threads: %d" % (trial, thread))
-            cmd = "g++ -DNUMTRIALS=%d -DNUMT=%d prog.cpp -fopenmp" % ( trial, thread )
+            cmd = "g++ -DNUMTRIALS=%d -DNUMT=%d p1.cpp -fopenmp" % ( trial, thread )
             os.system( cmd )
             for run in range(runs):
                 cmd = "./a.out >> " + outputPath # outputPath = Output/P1/results.csv
                 os.system( cmd )
+os.remove("a.out")
+

@@ -6,9 +6,9 @@ do
     echo NUMT = $t
     for a in 100 10000 100000 1000000
     do
-        g++ -DNUMT=$t -DNUMTRIALS=$a  prog.cpp -o proj.exe -lm -fopenmp
-        ./proj.exe
+        g++ -DNUMT=$t -DNUMTRIALS=$a  p1.cpp -o p1.exe -lm -fopenmp
+        ./p1.exe
     done
 done
 
-rm proj.exe
+rm p1.exe
