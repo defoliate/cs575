@@ -2,12 +2,16 @@
 #include <stdio.h>
 #include <math.h>
 
-//#ifndef NUMT
+#ifndef NUMTA
 #define NUMTA 1
+#endif
+
+#ifndef NUMT
 #define NUMT	         4
-//#endif
-#define SIZE       	600000	// you decide
-#define NUMTRIES        1000	 // you decide
+#endif
+
+#define SIZE       	60000	// you decide
+#define NUMTRIES        500	 // you decide
 
 float A[SIZE];
 float B[SIZE];
@@ -75,7 +79,7 @@ main()
 
     float S = maxMegaMults/ maxMegaMultsA;
     float Fp = (4. / 3.) * (1. - (1. / S));
-    printf("S=%f,Fp=%f", S, Fp);
+    printf("S=%f,Fp=%f\n", S, Fp);
 
     // note: %lf stands for "long float", which is how printf prints a "double"
     //        %d stands for "decimal integer", not "double"
