@@ -1,8 +1,8 @@
 #!/bin/bash
 
-numthreads=(1 2 4 8 16)
+numthreads=(1 2 4 8)
 numnodes=(2 4 8 16 32 64 128 256 512)
-numtries=100
+numtries=10
 file="maxMegaMults.txt"
 
 echo -n "Trials, " > $file
@@ -19,9 +19,10 @@ do
      echo -n "${t}, " >> $file
      for s in ${numnodes[@]}
      do
-          g++ -DNUMT=$t -DNUMNODES=$s -DNUMTRIES=$numtries -o proj main.cpp -O3 -lm -fopenmp
+          g++ -DNUMT=$t -DNUMNODES=$s -DNUMTRIES=$numtries -o proj p2.cpp -O3 -lm -fopenmp
           ./proj >> $file
           #./proj
      done
      echo -e "\n" >> $file
 done
+rm "proj"
