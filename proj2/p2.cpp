@@ -58,8 +58,7 @@ int main( int argc, char *argv[ ] ) {
       float sum = 0;
       double time0 = omp_get_wtime( );
 
-      #pragma omp parallel for default(none) \
-      shared(fullTileArea, halfTileArea, quarterTileArea) reduction(+:sum)
+      #pragma omp parallel for shared(fullTileArea, halfTileArea, quarterTileArea) reduction(+:sum)
       for(int i = 0; i < NUMNODES*NUMNODES; i++) {
          // Get row and column and use to get height at intersection.
          int iu = i % NUMNODES;
@@ -88,13 +87,8 @@ int main( int argc, char *argv[ ] ) {
          finalSum = sum;
       }
    } 
-
-   //printf("Threads: %d Nodes: %d Area Sum: %0.2lf MegaHeightsPerSec: %0.2lf\n" \
-   //       , NUMT, NUMNODES, finalSum, maxHeights);
    printf("%0.2lf, %0.2lf ", maxHeights, finalSum);
-
    return 0;
-
 }
 
 float height(int iu, int iv) {

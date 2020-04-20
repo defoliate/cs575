@@ -2,7 +2,7 @@
 
 numthreads=(1 2 4 8)
 numnodes=(2 4 8 16 32 64 128 256 512)
-numtries=10
+numtries=1
 file="maxMegaMults.txt"
 
 echo -n "Trials, " > $file
