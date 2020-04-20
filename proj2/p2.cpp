@@ -87,7 +87,7 @@ int main( int argc, char *argv[ ] ) {
          finalSum = sum;
       }
    } 
-   printf("%0.2lf, %0.2lf ", maxHeights, finalSum);
+   printf("%0.2lf %0.2lf ", maxHeights, finalSum);
    return 0;
 }
 
