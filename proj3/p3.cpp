@@ -22,7 +22,7 @@ void Watcher();
 void ExtremeWeather();
 
 
-int	NowYear;		// 2019 - 2024
+int	NowYear;		// 2020 - 2025
 int	NowMonth;		// 0 - 11
 int outputMonth;	// month variable doesn't get reset for ouput purposes
 
@@ -39,45 +39,44 @@ int	NumAtBarrier;
 int	NumGone;
 unsigned int seed = 0;
 
-const float GRAIN_GROWS_PER_MONTH =	8.0;
-const float ONE_DEER_EATS_PER_MONTH = 0.3;
+const float GRAIN_GROWS_PER_MONTH =		9.0;
+const float ONE_DEER_EATS_PER_MONTH =		1.0;
 
-const float AVG_PRECIP_PER_MONTH = 6.0;		// average
-const float AMP_PRECIP_PER_MONTH = 6.0;		// plus or minus
-const float RANDOM_PRECIP = 2.0;			// plus or minus noise
-	
-const float AVG_TEMP = 50.0;				// average
-const float AMP_TEMP = 20.0;				// plus or minus
-const float RANDOM_TEMP = 10.0;				// plus or minus noise
+const float AVG_PRECIP_PER_MONTH =		7.0;	// average
+const float AMP_PRECIP_PER_MONTH =		6.0;	// plus or minus
+const float RANDOM_PRECIP =			2.0;	// plus or minus noise
 
-const float MIDTEMP = 40.0;
-const float MIDPRECIP =	10.0;
+const float AVG_TEMP =				60.0;	// average
+const float AMP_TEMP =				20.0;	// plus or minus
+const float RANDOM_TEMP =			10.0;	// plus or minus noise
 
+const float MIDTEMP =				40.0;
+const float MIDPRECIP =				10.0;
 
 
 int main(int argc, char *argv[]) 
 {
-	// starting values
-	NowMonth =   0;
-  	NowYear =   2019;
-  	NowNumDeer =   1;
-  	NowHeight =   1.;
+	// starting date and time:
+	NowMonth =    0;
+	NowYear  = 2020;
+
+	// starting state (feel free to change this if you want):
+	NowNumDeer = 1;
+	NowHeight =  1.;
   	NowExtremeWeatherEffect = 0.;	//months since last fire
   	NowHeightEffect = 0.;
 
   	outputMonth = 1;
 
-  	float ang0 = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
+  	float ang = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
 
-	float temp = AVG_TEMP - AMP_TEMP * cos( ang0 );
-	NowTemp = temp + Ranf( &seed, -RANDOM_TEMP, RANDOM_TEMP );
+  	float temp = AVG_TEMP - AMP_TEMP * cos( ang );
+  	NowTemp = temp + Ranf( &seed, -RANDOM_TEMP, RANDOM_TEMP );
 
-	float init_precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang0 );
-	NowPrecip = init_precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
-	if( NowPrecip < 0. )
-	{
-		NowPrecip = 0.;
-	}
+  	float precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang );
+  	NowPrecip = precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
+  	if( NowPrecip < 0. )
+  		NowPrecip = 0.;
 
   	printf("Month\tHeight\tDeer\tTemp\tRain\n");
 
@@ -114,7 +113,7 @@ int main(int argc, char *argv[])
 
 void GrainDeer() 
 {
-	while(NowYear < 2025)
+	while(NowYear < 2026)
 	{
 		float height = NowHeight;
 		int deer = NowNumDeer;
@@ -145,17 +144,17 @@ void GrainDeer()
 
 void Grain()
 {
-	while(NowYear < 2025)
+	while(NowYear < 2026)
 	{
-		float height = NowHeight;
+		float nextHeight = NowHeight;
 		float tempFactor = exp(-SQR((NowTemp - MIDTEMP ) / 10.));
 		float precipFactor = exp(-SQR((NowPrecip - MIDPRECIP ) / 10.));
 		float extremeMultiplier = NowExtremeWeatherEffect;
 		float heightEffect = 0;
 
 
-		height += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
-		height -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
+		nextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
+		nextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
 
 
 		if(height < 0)
@@ -195,7 +194,7 @@ void Grain()
 
 void ExtremeWeather()
 {
-	while(NowYear < 2025)
+	while(NowYear < 2026)
 	{
 		float currentTemp = NowTemp;
 		float currentRain = NowPrecip;
@@ -246,7 +245,7 @@ void ExtremeWeather()
 
 void Watcher()
 {
-	while(NowYear < 2025)
+	while(NowYear < 2026)
 	{
 		//DoneComputing barrier
 		#pragma omp barrier
