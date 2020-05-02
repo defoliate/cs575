@@ -146,15 +146,15 @@ void Grain()
 {
 	while(NowYear < 2026)
 	{
-		float nextHeight = NowHeight;
+		float height = NowHeight;
 		float tempFactor = exp(-SQR((NowTemp - MIDTEMP ) / 10.));
 		float precipFactor = exp(-SQR((NowPrecip - MIDPRECIP ) / 10.));
 		float extremeMultiplier = NowExtremeWeatherEffect;
 		float heightEffect = 0;
 
 
-		nextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
-		nextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
+		height += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
+		height -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
 
 
 		if(height < 0)
