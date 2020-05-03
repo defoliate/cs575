@@ -1,351 +1,251 @@
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
 #include <omp.h>
 #include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <stdlib.h>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+using namespace std;
+int	NowYear  = 2020;		// 2020 - 2025
+int	NowMonth = 2;		// 1 - 12 we begin with 2 since data for 1 is already known
 
-#ifndef NUMT
-#define NUMT	        4
-#endif
+unsigned int seed  = 0;
+float	NowPrecip;		// inches of rain per month
+float	NowTemp;		// temperature this month
+float	NowHeight  = 30;		// grain height in inches
+int	    NowNumDeer = 20;		// number of deer in the current population
+int     NowNumWolf = 2;
 
-void InitBarrier(int);
-void WaitBarrier();
-float Ranf(unsigned int *seedp, float low, float high);
-int Ranf(unsigned int *seedp, int ilow, int ihigh);
-float SQR(float x);
+float NextHeight;
+int NextNumDeer;
+int NextNumWolf;
+const float GRAIN_GROWS_PER_MONTH =	  9.0;
+const float ONE_DEER_EATS_PER_MONTH = 1.0;
+
+const float AVG_PRECIP_PER_MONTH =	  7.0;	// average
+const float AMP_PRECIP_PER_MONTH =	  6.0;	// plus or minus
+const float RANDOM_PRECIP =			  2.0;	// plus or minus noise
+
+const float AVG_TEMP =				  60.0;	// average
+const float AMP_TEMP =				  20.0;	// plus or minus
+const float RANDOM_TEMP =			  10.0;	// plus or minus noise
+
+const float MIDTEMP =				  40.0;
+const float MIDPRECIP =				  10.0;
+float ang;
+float temp;
+float precip;
+float tempFactor;
+float precipFactor;
+ofstream FileTemp;
+ofstream FilePrecip;
+ofstream FileGrain;
+ofstream FileDeer;
+ofstream FileWolf;
+// function prototypes:
+float Ranf( unsigned int *seedp,  float low, float high );
+int Ranf( unsigned int *seedp, int ilow, int ihigh );
+float SQR( float x );
 
 void GrainDeer();
+void DeerWolf();
 void Grain();
 void Watcher();
-void ExtremeWeather();
 
-
-int	NowYear;		// 2019 - 2024
-int	NowMonth;		// 0 - 11
-int outputMonth;	// month variable doesn't get reset for ouput purposes
-
-float NowPrecip;	// inches of rain per month
-float NowTemp;		// temperature this month
-float NowHeight;	// grain height in inches
-int	NowNumDeer;		// number of deer in the current population
-float NowExtremeWeatherEffect; //multiplier that effects grain height due to extreme hot or cold conditions
-float NowHeightEffect; //will store the effect on the grain height due extreme condition
-
-omp_lock_t Lock;
-int	NumInThreadTeam;
-int	NumAtBarrier;
-int	NumGone;
-unsigned int seed = 0;
-
-const float GRAIN_GROWS_PER_MONTH =	8.0;
-const float ONE_DEER_EATS_PER_MONTH = 0.3;
-
-const float AVG_PRECIP_PER_MONTH = 6.0;		// average
-const float AMP_PRECIP_PER_MONTH = 6.0;		// plus or minus
-const float RANDOM_PRECIP = 2.0;			// plus or minus noise
-	
-const float AVG_TEMP = 50.0;				// average
-const float AMP_TEMP = 20.0;				// plus or minus
-const float RANDOM_TEMP = 10.0;				// plus or minus noise
-
-const float MIDTEMP = 40.0;
-const float MIDPRECIP =	10.0;
-
-
-
-int main(int argc, char *argv[]) 
+// main program:
+int main( int argc, char *argv[ ] )
 {
-	// starting values
-	NowMonth =   0;
-  	NowYear =   2019;
-  	NowNumDeer =   1;
-  	NowHeight =   1.;
-  	NowExtremeWeatherEffect = 0.;	//months since last fire
-  	NowHeightEffect = 0.;
+	#ifndef _OPENMP
+		fprintf( stderr, "No OpenMP support!\n" );
+		return 1;
+	#endif
+	
+	// We initialize the temperature and precipation variables
+	ang = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
 
-  	outputMonth = 1;
-
-  	float ang0 = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
-
-	float temp = AVG_TEMP - AMP_TEMP * cos( ang0 );
+	temp = AVG_TEMP - AMP_TEMP * cos( ang );
 	NowTemp = temp + Ranf( &seed, -RANDOM_TEMP, RANDOM_TEMP );
 
-	float init_precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang0 );
-	NowPrecip = init_precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
+	precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang );
+	NowPrecip = precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
 	if( NowPrecip < 0. )
-	{
-		NowPrecip = 0.;
-	}
+		{NowPrecip = 0.;}
+	tempFactor = exp(   -SQR(  ( NowTemp - MIDTEMP ) / 10.  )   );
 
-  	printf("Month\tHeight\tDeer\tTemp\tRain\n");
+	precipFactor = exp(   -SQR(  ( NowPrecip - MIDPRECIP ) / 10.  )   );
+	// Let us begin the recoding of the simulation.
+	FileTemp.open("FTemp.m");
+	FileTemp << "Temp = ["<<NowTemp;
 
-	omp_set_num_threads(NUMT);	// same as # of sections
+	FilePrecip.open("FPrecip.m");
+	FilePrecip << "Precip = ["<<NowPrecip;
 
+	FileGrain.open("FGrain.m");
+	FileGrain << "Grain = ["<<NowHeight;
 
+	FileDeer.open("FDeer.m");
+	FileDeer << "Deer = ["<<NowNumDeer;
+
+	FileWolf.open("FWolf.m");
+	FileWolf << "Wolf = ["<<NowNumWolf;
+	omp_set_num_threads( 4 );	// same as # of sections
 	#pragma omp parallel sections
 	{
 		#pragma omp section
 		{
-			GrainDeer();
+			GrainDeer( );
 		}
 
 		#pragma omp section
 		{
-			Grain();
+			Grain( );
 		}
 
 		#pragma omp section
 		{
-			Watcher();
+			DeerWolf( );
 		}
 
-		
 		#pragma omp section
 		{
-			ExtremeWeather();	// your own
+			Watcher( );
 		}
-	
-	}  
-
-}
-
-
-void GrainDeer() 
+	}
+	FileTemp<<"];";
+	FileTemp.close();
+	FilePrecip<<"];";
+	FilePrecip.close();
+	FileGrain<<"];";
+	FileGrain.close();
+	FileDeer<<"];";
+	FileDeer.close();
+	FileWolf<<"];";
+	FileWolf.close();
+}       
+void 
+Grain()
 {
-	while(NowYear < 2025)
+	while( NowYear < 2026 )
 	{
-		float height = NowHeight;
-		int deer = NowNumDeer;
-
-		if(deer > height)
-		{
-			deer--;
-		}
-		else if(deer < height)
-		{
-			deer++;
-		}
-
-		//DoneComputing barrier
-		#pragma omp barrier
-
-		NowNumDeer = deer;
-
-		//DoneAssigning barrier
-		#pragma omp barrier
-
-		//wait for watcher to print variables
-		//DonePrinting barrier;
-		#pragma omp barrier
+	// compute a temporary next-value for this quantity
+	// based on the current state of the simulation:
+	NextHeight  = NowHeight;
+ 	NextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
+ 	NextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
+	if (NextHeight<=0)
+		{NextHeight = 0;}
+	// DoneComputing barrier:
+	#pragma omp barrier
+	NowHeight = NextHeight;
+	// DoneAssigning barrier:
+	#pragma omp barrier
+	FileGrain<<","<<NowHeight;
+	// DonePrinting barrier:
+	#pragma omp barrier
+	}
+}
+void 
+GrainDeer()
+{
+	while( NowYear < 2026 )
+	{
+	// compute a temporary next-value for this quantity
+	// based on the current state of the simulation:
+	if (NowHeight < NowNumDeer)
+		{NextNumDeer = NowNumDeer-1;}
+	else
+		{NextNumDeer = NextNumDeer+1;}
+	NextNumDeer = NextNumDeer -(int)floor(NowNumWolf/3);
+	if (NextNumDeer <= 0)
+		{NextNumDeer = 0;}
+	// DoneComputing barrier:
+	#pragma omp barrier
+	NowNumDeer = NextNumDeer;
+	// DoneAssigning barrier:
+	#pragma omp barrier
+	FileDeer<<","<<NowNumDeer;
+	// DonePrinting barrier:
+	#pragma omp barrier
+	}
+}
+void
+DeerWolf()
+{
+	while( NowYear < 2026 )
+	{
+	// compute a temporary next-value for this quantity
+	// based on the current state of the simulation:
+	if(NowNumWolf < NowNumDeer)
+		{NextNumWolf = NowNumWolf + 1;}
+	else
+		{NextNumWolf = NowNumWolf - 1;}
+	if(NextNumWolf <= 0)
+		{NextNumWolf = 0;}
+	// DoneComputing barrier:
+	#pragma omp barrier
+	NowNumWolf = NextNumWolf;
+	// DoneAssigning barrier:
+	#pragma omp barrier
+	FileWolf<<","<<NowNumWolf;
+	// DonePrinting barrier:
+	#pragma omp barrier
 	}
 }
 
-
-void Grain()
+void
+Watcher()
 {
-	while(NowYear < 2025)
+	while( NowYear < 2026 )
 	{
-		float height = NowHeight;
-		float tempFactor = exp(-SQR((NowTemp - MIDTEMP ) / 10.));
-		float precipFactor = exp(-SQR((NowPrecip - MIDPRECIP ) / 10.));
-		float extremeMultiplier = NowExtremeWeatherEffect;
-		float heightEffect = 0;
+	// DoneComputing barrier:
+	#pragma omp barrier
+	// DoneAssigning barrier:
+	#pragma omp barrier
+	// Update the environmental variables.
+	if (NowMonth == 12)
+		{NowYear++;
+		 NowMonth = 1;}
+	else
+		{NowMonth++;}
+	// cout<< NowMonth<<"\n"<<NowYear<<"\n"; //Debuging tool.
+	ang = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
 
+	temp = AVG_TEMP - AMP_TEMP * cos( ang );
+	NowTemp = temp + Ranf( &seed, -RANDOM_TEMP, RANDOM_TEMP );
 
-		height += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
-		height -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
-
-
-		if(height < 0)
-		{
-			height = 0;
-		}
-
-		float tempHeight = height;
-		if((float)extremeMultiplier > 0.)
-		{
-			//tempHeight *= extremeMultiplier;
-		}
-
-		heightEffect = height - tempHeight;
-		height = tempHeight;
-
-		//DoneComputing barrier
-		#pragma omp barrier
-
-		//set new grain height and effect
-		NowHeight = height;
-
-		//grain effect
-		NowHeightEffect = heightEffect;
-
-		//DoneAssigning barrier
-		#pragma omp barrier
-
-
-		//DonePrinting barrier
-		#pragma omp barrier
-	}
-
-}
-
-
-
-void ExtremeWeather()
-{
-	while(NowYear < 2025)
-	{
-		float currentTemp = NowTemp;
-		float currentRain = NowPrecip;
-		float extremeMultiplier = 0.;
-		
-
-
-		//trigger a fire
-		if(currentTemp > 70.0 && currentRain < 10.0)
-		{
-			extremeMultiplier = 0.25;
-		} 
-		//trigger a frost
-		else if(currentTemp < 4.0 && currentRain > 12.0) {
-			extremeMultiplier = 0.25;
-		}
-
-		else if(currentTemp < 40.)
-		{
-			extremeMultiplier = .8;
-		}
-
-		else if(currentTemp < 35.)
-		{
-			extremeMultiplier = .7;
-		}
-
-		else if(currentTemp < 32.)
-		{
-			extremeMultiplier = .5;
-		}
-
-		
-		//DoneComputing barrier
-		#pragma omp barrier
-
-		
-		NowExtremeWeatherEffect = extremeMultiplier;
-
-		//DoneAssigning barrier
-		#pragma omp barrier
-
-		//DonePrinting barrier
-		#pragma omp barrier
+	precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang );
+	NowPrecip = precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
+	if( NowPrecip  < 0. )
+		{NowPrecip = 0.;}
+	tempFactor   = exp(   -SQR(  ( NowTemp - MIDTEMP ) / 10.  )   );
+	precipFactor = exp(   -SQR(  ( NowPrecip - MIDPRECIP ) / 10.  )   );
+	// Printing the variables
+	FileTemp  <<","<<NowTemp;
+	FilePrecip<<","<<NowPrecip;
+	// DonePrinting barrier:
+	#pragma omp barrier
 	}
 }
-
-
-void Watcher()
-{
-	while(NowYear < 2025)
-	{
-		//DoneComputing barrier
-		#pragma omp barrier
-
-		//DoneAssigning barrier
-		#pragma omp barrier
-
-		//convert values to cm and celsius
-		float outputHeight = NowHeight * 2.54;
-		float outputPrecip = NowPrecip * 2.54;
-		float outputTemp = (5./9.) * (NowTemp - 32); 
-		float outputHeightEffect = NowHeightEffect * 2.54;
-
-		//Print out all variables
-		printf("%d\t%8.2lf\t%d\t%8.2lf\t%8.2lf\t%8.2lf\n", outputMonth, outputHeight, NowNumDeer, outputTemp, outputPrecip, outputHeightEffect);
-
-		outputMonth++;
-
-		//update date
-		if(NowMonth == 11)
-		{
-			NowMonth = 0;
-			NowYear++;
-		}
-		else 
-		{
-			NowMonth++;
-		}
-
-
-		float ang = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
-
-		float temp = AVG_TEMP - AMP_TEMP * cos( ang );
-		NowTemp = temp + Ranf( &seed, -RANDOM_TEMP, RANDOM_TEMP );
-
-		float precip = AVG_PRECIP_PER_MONTH + AMP_PRECIP_PER_MONTH * sin( ang );
-		NowPrecip = precip + Ranf( &seed,  -RANDOM_PRECIP, RANDOM_PRECIP );
-		if( NowPrecip < 0. )
-			NowPrecip = 0.;
-
-
-
-		//DonePrinting barrier
-		#pragma omp barrier
-	}
-}
-
-
-void InitBarrier( int n )
-{
-	NumInThreadTeam = n;
-	NumAtBarrier = 0;
-	omp_init_lock( &Lock );
-}
-
-
-void WaitBarrier()
-{
-	omp_set_lock( &Lock );
-	{
-    	NumAtBarrier++;
-    	if( NumAtBarrier == NumInThreadTeam )
-        {
-        	NumGone = 0;
-    	    NumAtBarrier = 0;
-        	// let all other threads get back to what they were doing
-			// before this one unlocks, knowing that they might immediately
-			// call WaitBarrier( ) again:
-        	while( NumGone != NumInThreadTeam-1 );
-         	omp_unset_lock( &Lock );
-           	return;
-    	}
-	}
-	omp_unset_lock(&Lock);
-
-	while( NumAtBarrier != 0 );	// this waits for the nth thread to arrive
-
-	#pragma omp atomic
-	NumGone++;			// this flags how many threads have returned
-}
-
-
-float Ranf(unsigned int *seedp, float low, float high)
-{
-	float r = (float) rand_r(seedp);              // 0 - RAND_MAX
-
-	return(low + r * (high - low) / (float)RAND_MAX);
-}
-
-
-int Ranf(unsigned int *seedp, int ilow, int ihigh)
-{
-	float low = (float)ilow;
-	float high = (float)ihigh + 0.9999f;
-
-	return (int)(  Ranf(seedp, low,high) );
-}
-
-float SQR(float x)
+float
+SQR( float x )
 {
         return x*x;
+}
+
+float
+Ranf( unsigned int *seedp,  float low, float high )
+{
+        float r = (float) rand_r( seedp );              // 0 - RAND_MAX
+
+        return(   low  +  r * ( high - low ) / (float)RAND_MAX   );
+}
+
+
+int
+Ranf( unsigned int *seedp, int ilow, int ihigh )
+{
+        float low = (float)ilow;
+        float high = (float)ihigh + 0.9999f;
+
+        return (int)(  Ranf(seedp, low,high) );
 }
