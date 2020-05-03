@@ -209,24 +209,18 @@ void ExtremeWeather()
 		} 
 		//trigger a frost
 		else if(currentTemp < 4.0 && currentRain > 12.0) {
-			extremeMultiplier = 0.25;
+			extremeMultiplier = 0.3;
 		}
 
-		else if(currentTemp < 40.)
+		else if(currentTemp < 40. && currentTemp >30.0)
 		{
 			extremeMultiplier = .8;
 		}
 
-		else if(currentTemp < 35.)
+		else if(currentTemp < 30.)
 		{
-			extremeMultiplier = .7;
+			extremeMultiplier = .6;
 		}
-
-		else if(currentTemp < 32.)
-		{
-			extremeMultiplier = .5;
-		}
-
 		
 		//DoneComputing barrier
 		#pragma omp barrier

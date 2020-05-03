@@ -166,7 +166,7 @@ void Grain()
 		float tempHeight = height;
 		if((float)extremeMultiplier > 0.)
 		{
-			tempHeight *= extremeMultiplier;
+			//tempHeight *= extremeMultiplier;
 		}
 
 		heightEffect = height - tempHeight;
