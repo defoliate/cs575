@@ -103,7 +103,7 @@ int main( int argc, char *argv[ ] )
 
 		#pragma omp section
 		{
-			DeerWolf( );
+	//		DeerWolf( );
 		}
 
 		#pragma omp section

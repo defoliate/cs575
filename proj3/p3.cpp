@@ -7,7 +7,8 @@
 #include <fstream>
 
 #ifndef NUMT
-#define NUMT	        4
+//#define NUMT	        4
+#define NUMT            3
 #endif
 
 void InitBarrier(int);
@@ -103,7 +104,7 @@ int main(int argc, char *argv[])
 		
 		#pragma omp section
 		{
-			ExtremeWeather();	// your own
+		//	ExtremeWeather();	// your own
 		}
 	
 	}  
