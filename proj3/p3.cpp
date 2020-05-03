@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
   	if( NowPrecip < 0. )
   		NowPrecip = 0.;
 
-  	printf("Month\tHeight\tDeer\tTemp\tRain\n");
+  	printf("Month\tHeight\tgraindeer\ttemperature\tprecipitation\tgodHand\n");
 
 	omp_set_num_threads(NUMT);	// same as # of sections
 
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 		
 		#pragma omp section
 		{
-		//	ExtremeWeather();	// your own
+			ExtremeWeather();	// your own
 		}
 	
 	}  
@@ -304,10 +304,8 @@ void WaitBarrier()
     	if( NumAtBarrier == NumInThreadTeam )
         {
         	NumGone = 0;
-    	    NumAtBarrier = 0;
+    	    	NumAtBarrier = 0;
         	// let all other threads get back to what they were doing
-			// before this one unlocks, knowing that they might immediately
-			// call WaitBarrier( ) again:
         	while( NumGone != NumInThreadTeam-1 );
          	omp_unset_lock( &Lock );
            	return;
