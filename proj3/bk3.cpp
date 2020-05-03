@@ -6,7 +6,7 @@
 #include <omp.h>
 
 const float GRAIN_GROWS_PER_MONTH =		9.0;
-const float WATER_FILLS_PER_MONTH =		4.0;
+//const float WATER_FILLS_PER_MONTH =		4.0;
 const float ONE_DEER_EATS_PER_MONTH =	1.0;
 const float ONE_DEER_DRINKS_PER_MONTH = 1.0;
 
@@ -71,10 +71,10 @@ int main(){
 			Watcher();
 		}
 
-		#pragma omp section
-		{
-			Water();
-		}
+		// #pragma omp section
+		// {
+		// 	//Water();
+		// }
 	}
 	return 0;
 }
@@ -101,30 +101,30 @@ void Watcher(){
 	}
 }
 
-void Water(){
-	while( NowYear < EndYear ){
-	// New amount of water
-	float NextWater = NowWater;
-	float precipFactor = exp(-SQR((NowPrecip - MIDPRECIP) / 10.));
+// void Water(){
+// 	while( NowYear < EndYear ){
+// 	// New amount of water
+// 	float NextWater = NowWater;
+// 	float precipFactor = exp(-SQR((NowPrecip - MIDPRECIP) / 10.));
 
-	NextWater += precipFactor * WATER_FILLS_PER_MONTH;
-	NextWater -= (float)NowNumDeer * ONE_DEER_DRINKS_PER_MONTH;
-	if (NextWater < 0.)
-		NextWater = 0.;
+// 	NextWater += precipFactor * WATER_FILLS_PER_MONTH;
+// 	NextWater -= (float)NowNumDeer * ONE_DEER_DRINKS_PER_MONTH;
+// 	if (NextWater < 0.)
+// 		NextWater = 0.;
 
-	// DoneComputing barrier:
-	#pragma omp barrier
+// 	// DoneComputing barrier:
+// 	#pragma omp barrier
 
-	// Set global variable to new value
-	NowWater = NextWater;
+// 	// Set global variable to new value
+// 	NowWater = NextWater;
 
-	// DoneAssigning barrier:
-	#pragma omp barrier
+// 	// DoneAssigning barrier:
+// 	#pragma omp barrier
 
-	// DonePrinting barrier:
-	#pragma omp barrier
-	}
-}
+// 	// DonePrinting barrier:
+// 	#pragma omp barrier
+// 	}
+// }
 
 void GrainDeer(){
 	while( NowYear < EndYear ){
@@ -138,10 +138,10 @@ void GrainDeer(){
 			lostOrGained++;
 		
 	// New number of GrainDeer after water
-		if(NowNumDeer > NowWater){
-			int diff = NowNumDeer - NowWater;
-			lostOrGained -= diff;
-		}
+		// if(NowNumDeer > NowWater){
+		// 	int diff = NowNumDeer - NowWater;
+		// 	lostOrGained -= diff;
+		// }
 
 		NextNumDeer = NowNumDeer + lostOrGained;
 		if (NextNumDeer < 0)

@@ -7,8 +7,7 @@
 #include <fstream>
 
 #ifndef NUMT
-//#define NUMT	        4
-#define NUMT            3
+#define NUMT	        4
 #endif
 
 void InitBarrier(int);
