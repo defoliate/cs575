@@ -6,7 +6,7 @@ echo "Size, SIMD, Standard" > $file
 
 for a in ${arraysize[@]}
 do
-    g++ -DARRAYSIZE=$a -o proj main.cpp -O3 -lm -fopenmp
+    g++ -DARRAYSIZE=$a -o proj proj4.cpp -lm -fopenmp
     ./proj >> $file
 done
 rm "proj"

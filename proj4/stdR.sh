@@ -10,7 +10,7 @@ do
     for a in ${arraysize[@]}
     do
         echo -n "${t}, " >> $file
-        g++ -DARRAYSIZE=$a -o proj simdt.cpp -lm -fopenmp
+        g++ -DARRAYSIZE=$a -o proj simd.cpp -lm -fopenmp
         ./proj >> $file
     done
 done
