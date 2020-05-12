@@ -17,7 +17,6 @@
 #define LOCALITY_LOW 1
 #define LOCALITY_MED 2
 #define LOCALITY_HIGH 3
-#define PD 32 // prefetch distance (fp words)
 #ifndef NUMTRIES
 #define NUMTRIES 1
 #endif
@@ -79,22 +78,11 @@ int main(int argc, char *argv[ ]) {
         SimdTSum = 0.;
         time0 = omp_get_wtime( );
         //using reduction
-        #pragma omp parallel
-     /*   {
+        #pragma omp parallel reduction(+:StdTSum)
+        {
             int first = omp_get_thread_num() * NUM_ELEMENTS_PER_CORE;
             SimdTSum += SimdMulSum(&a[first], &b[first], NUM_ELEMENTS_PER_CORE);
-        }*/
-{
- /*           int first = omp_get_thread_num() * NUM_ELEMENTS_PER_CORE;
-            SimdTSum += SimdMulSum(&a[first], &b[first], NUM_ELEMENTS_PER_CORE);
-     */
-int first = omp_get_thread_num() * NUM_ELEMENTS_PER_CORE;
-if( (i%16) == 0 ){
-__builtin_prefetch ( &a[ i+PD ], WILL_READ_ONLY, LOCALITY_LOW );
-__builtin_prefetch ( &b[ i+PD ], WILL_READ_ONLY, LOCALITY_LOW );}
-            SimdTSum += SimdMulSum(&a[first], &b[first], NUM_ELEMENTS_PER_CORE);
-   
-}
+        }
         time1 = omp_get_wtime( );
 
         multsPerSec = (double)ARRAYSIZE / (time1 - time0) / 1000000.;
@@ -107,8 +95,6 @@ __builtin_prefetch ( &b[ i+PD ], WILL_READ_ONLY, LOCALITY_LOW );}
         time0 = omp_get_wtime( );
         #pragma omp parallel reduction(+:StdTSum)
 {
-__builtin_prefetch ( &a[ i+PD ], WILL_READ_ONLY, LOCALITY_LOW );
-__builtin_prefetch ( &b[ i+PD ], WILL_READ_ONLY, LOCALITY_LOW );
             int first = omp_get_thread_num() * NUM_ELEMENTS_PER_CORE;
             StdTSum += StdMulSum(&a[first], &b[first], NUM_ELEMENTS_PER_CORE);
         }
