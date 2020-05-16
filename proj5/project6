@@ -1,0 +1,19 @@
+#!/bin/bash
+
+export CUDA_PATH=/usr/local/apps/cuda/cuda-9.2
+export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIBRARY_PATH
+export PATH=$PATH:$CUDA_PATH/bin
+
+
+for t in 16 32 64
+do
+	echo BLOCKSIZE = $t
+	# number of subdivisions:
+	for s in  16000 32000 64000 128000 256000 512000
+	do
+		echo SIZE = $s
+		nvcc -DBLOCKSIZE=$t -DSIZE=$s -o prog  arrayMul.cu
+		./prog >> project6data.txt
+	done
+    echo -e >> project6data.txt
+done
