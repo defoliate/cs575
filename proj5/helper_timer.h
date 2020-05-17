@@ -447,4 +447,3 @@ inline float sdkGetTimerValue(StopWatchInterface **timer_interface) {
 }
 
 #endif  // COMMON_HELPER_TIMER_H_
-
