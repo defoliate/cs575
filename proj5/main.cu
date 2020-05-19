@@ -98,7 +98,7 @@ __global__  void MonteCarlo( float *Xcs, float *Ycs, float *Rs, int *Hits )
 
 			// get the outgoing (bounced) vector:
 			float dot = inx*nx + iny*ny;
-			float outx = inx - 2.*nx*dot;	// angle of reflection = angle of incidence`
+			//float outx = inx - 2.*nx*dot;	// angle of reflection = angle of incidence`
 			float outy = iny - 2.*ny*dot;	// angle of reflection = angle of incidence`
 
 			// find out if it hits the infinite plate:

@@ -1,0 +1,112 @@
+BLOCKSIZE =         16
+Number of Trials =      16384, MegaTrials/Second =   533.3333
+
+Probability = 42.096 %
+BLOCKSIZE =         16
+Number of Trials =      32768, MegaTrials/Second =   965.1272
+
+Probability = 41.901 %
+BLOCKSIZE =         16
+Number of Trials =      64512, MegaTrials/Second =  1748.4821
+
+Probability = 42.425 %
+BLOCKSIZE =         16
+Number of Trials =     128000, MegaTrials/Second =  2943.3407
+
+Probability = 42.205 %
+BLOCKSIZE =         16
+Number of Trials =     256000, MegaTrials/Second =  4499.4375
+
+Probability = 41.944 %
+BLOCKSIZE =         16
+Number of Trials =     512000, MegaTrials/Second =  5712.2458
+
+Probability = 41.947 %
+BLOCKSIZE =         16
+Number of Trials =    1000448, MegaTrials/Second =  7108.6858
+
+Probability = 42.009 %
+BLOCKSIZE =         32
+Number of Trials =      16384, MegaTrials/Second =   571.4286
+
+Probability = 42.743 %
+BLOCKSIZE =         32
+Number of Trials =      32768, MegaTrials/Second =  1058.9452
+
+Probability = 41.968 %
+BLOCKSIZE =         32
+Number of Trials =      64512, MegaTrials/Second =  1944.0695
+
+Probability = 42.099 %
+BLOCKSIZE =         32
+Number of Trials =     128000, MegaTrials/Second =  3642.9873
+
+Probability = 42.121 %
+BLOCKSIZE =         32
+Number of Trials =     256000, MegaTrials/Second =  6046.8634
+
+Probability = 41.885 %
+BLOCKSIZE =         32
+Number of Trials =     512000, MegaTrials/Second =  8109.4784
+
+Probability = 41.983 %
+BLOCKSIZE =         32
+Number of Trials =    1000448, MegaTrials/Second = 11713.7502
+
+Probability = 41.994 %
+BLOCKSIZE =         64
+Number of Trials =      16384, MegaTrials/Second =   500.0000
+
+Probability = 41.766 %
+BLOCKSIZE =         64
+Number of Trials =      32768, MegaTrials/Second =  1103.4482
+
+Probability = 41.763 %
+BLOCKSIZE =         64
+Number of Trials =      64512, MegaTrials/Second =  2024.0964
+
+Probability = 41.853 %
+BLOCKSIZE =         64
+Number of Trials =     128000, MegaTrials/Second =  3999.9998
+
+Probability = 42.113 %
+BLOCKSIZE =         64
+Number of Trials =     256000, MegaTrials/Second =  6785.4113
+
+Probability = 41.954 %
+BLOCKSIZE =         64
+Number of Trials =     512000, MegaTrials/Second = 10575.0166
+
+Probability = 42.111 %
+BLOCKSIZE =         64
+Number of Trials =    1000448, MegaTrials/Second = 15959.1627
+
+Probability = 41.976 %
+BLOCKSIZE =        128
+Number of Trials =      16384, MegaTrials/Second =   500.0000
+
+Probability = 42.688 %
+BLOCKSIZE =        128
+Number of Trials =      32768, MegaTrials/Second =  1096.3597
+
+Probability = 41.962 %
+BLOCKSIZE =        128
+Number of Trials =      64512, MegaTrials/Second =  2144.6809
+
+Probability = 42.135 %
+BLOCKSIZE =        128
+Number of Trials =     128000, MegaTrials/Second =  4004.0038
+
+Probability = 41.634 %
+BLOCKSIZE =        128
+Number of Trials =     256000, MegaTrials/Second =  7346.1890
+
+Probability = 42.145 %
+BLOCKSIZE =        128
+Number of Trials =     512000, MegaTrials/Second = 11808.1185
+
+Probability = 41.909 %
+BLOCKSIZE =        128
+Number of Trials =    1000448, MegaTrials/Second = 16241.0390
+
+Probability = 42.051 %
