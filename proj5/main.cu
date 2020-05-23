@@ -220,6 +220,7 @@ main( int argc, char* argv[ ] )
 	double megaTrialsPerSecond = trialsPerSecond / 1000000.;
 	//fprintf( stderr, "BLOCKSIZE = %10d\n", BLOCKSIZE );
 	//fprintf( stderr, "Number of Trials = %10d, MegaTrials/Second = %10.4lf\n", NUMTRIALS, megaTrialsPerSecond );
+	//printf("%10d\t%10d\t%10.4lf\n", BLOCKSIZE,NUMTRIALS, megaTrialsPerSecond);
 	fprintf( stderr, "%10d\t%10d\t%10.4lf\n", BLOCKSIZE,NUMTRIALS, megaTrialsPerSecond);
         //fprintf( stderr, "Number of Trials = %10d, MegaTrials/Second = %10.4lf\n", NUMTRIALS, megaTrialsPerSecond );
 	// copy result from the device to the host:
