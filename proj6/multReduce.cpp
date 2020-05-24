@@ -25,7 +25,7 @@
 //
 //#define    NUM_WORK_GROUPS        NUM_ELEMENTS/LOCAL_SIZE
 
-const char *			CL_FILE_NAME = { "third.cl" };
+const char *			CL_FILE_NAME = { "multReduce.cl" };
 const float			TOL = 0.0001f;
 
 void				Wait( cl_command_queue );

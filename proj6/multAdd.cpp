@@ -25,7 +25,7 @@
 //
 //#define    NUM_WORK_GROUPS        NUM_ELEMENTS/LOCAL_SIZE
 
-const char *			CL_FILE_NAME = { "second.cl" };
+const char *			CL_FILE_NAME = { "multAdd.cl" };
 const float			TOL = 1.0005f;
 
 void				Wait( cl_command_queue );
