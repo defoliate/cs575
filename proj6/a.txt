@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+    1024	  32	        32	     0.014	 GigaMultsPerSecond-Reduce
+    1024	  64	        16	     0.012	 GigaMultsPerSecond-Reduce
+    1024	 128	         8	     0.013	 GigaMultsPerSecond-Reduce
+    1024	 256	         4	     0.010	 GigaMultsPerSecond-Reduce
+
+   32768	  32	      1024	     0.342	 GigaMultsPerSecond-Reduce
+   32768	  64	       512	     0.682	 GigaMultsPerSecond-Reduce
+   32768	 128	       256	     0.354	 GigaMultsPerSecond-Reduce
+   32768	 256	       128	     0.309	 GigaMultsPerSecond-Reduce
+
+  131072	  32	      4096	     0.420	 GigaMultsPerSecond-Reduce
+  131072	  64	      2048	     0.500	 GigaMultsPerSecond-Reduce
+  131072	 128	      1024	     0.442	 GigaMultsPerSecond-Reduce
+  131072	 256	       512	     0.475	 GigaMultsPerSecond-Reduce
+
+  262144	  32	      8192	     0.878	 GigaMultsPerSecond-Reduce
+  262144	  64	      4096	     0.938	 GigaMultsPerSecond-Reduce
+  262144	 128	      2048	     0.939	 GigaMultsPerSecond-Reduce
+  262144	 256	      1024	     1.000	 GigaMultsPerSecond-Reduce
+
+  524288	  32	     16384	     1.474	 GigaMultsPerSecond-Reduce
+  524288	  64	      8192	     1.523	 GigaMultsPerSecond-Reduce
+  524288	 128	      4096	     1.818	 GigaMultsPerSecond-Reduce
+  524288	 256	      2048	     1.535	 GigaMultsPerSecond-Reduce
+
+ 1048576	  32	     32768	     1.975	 GigaMultsPerSecond-Reduce
+ 1048576	  64	     16384	     2.599	 GigaMultsPerSecond-Reduce
+ 1048576	 128	      8192	     2.832	 GigaMultsPerSecond-Reduce
+ 1048576	 256	      4096	     2.885	 GigaMultsPerSecond-Reduce
+
+ 4194304	  32	    131072	     3.084	 GigaMultsPerSecond-Reduce
+ 4194304	  64	     65536	     5.048	 GigaMultsPerSecond-Reduce
+ 4194304	 128	     32768	     5.840	 GigaMultsPerSecond-Reduce
+ 4194304	 256	     16384	     5.297	 GigaMultsPerSecond-Reduce
+
+ 8388608	  32	    262144	     3.554	 GigaMultsPerSecond-Reduce
+ 8388608	  64	    131072	     5.751	 GigaMultsPerSecond-Reduce
+ 8388608	 128	     65536	     7.432	 GigaMultsPerSecond-Reduce
+ 8388608	 256	     32768	     6.494	 GigaMultsPerSecond-Reduce
+

@@ -218,15 +218,13 @@ main( int argc, char *argv[ ] )
     for( int i = 0; i < NUM_WORK_GROUPS; i++ )
     {
         sum += hC[ i ];
-//        if ((hC[i] - (64.*(float)i + 31.)*16.) > TOL)
-//            fprintf( stderr, "hC[%d] = %13.6f (expected %13.6f)\n", i, hC[i], (64.*(float)i + 31.)*16. );
     }
     float expected = ((float)NUM_ELEMENTS - 1) * (float)NUM_ELEMENTS / 2;
 
     if( fabs( sum - expected ) > TOL )
     {
-        fprintf( stderr, "wrongly produced %13.6f instead of %13.6f (%13.8f)\n",
-                sum, expected, fabs(sum-expected) );
+       // fprintf( stderr, "wrongly produced %13.6f instead of %13.6f (%13.8f)\n",
+          //      sum, expected, fabs(sum-expected) );
     }
     
     fprintf( stderr, "%8d\t%4d\t%10d\t%10.3lf\t GigaMultsPerSecond-Reduce\n",
