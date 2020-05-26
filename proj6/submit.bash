@@ -7,5 +7,5 @@
 #SBATCH -e p6.err
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=yuanqi@oregonstate.edu
-./config.sh
+./mult.sh
 
