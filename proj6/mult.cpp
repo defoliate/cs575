@@ -15,17 +15,21 @@
 #include "cl_platform.h"
 
 
-#ifndef NMB
-#define	NMB			64
-#endif
+//#ifndef NMB
+//#define	NMB			64
+//#endif
 
-#define NUM_ELEMENTS		NMB*1024*1024
+#ifndef NUM_ELEMENTS 
+#define NUM_ELEMENTS		64*1024*1024
+#endif
 
 #ifndef LOCAL_SIZE
 #define	LOCAL_SIZE		64
 #endif
 
+#ifndef NUM_WORK_GROUPS
 #define	NUM_WORK_GROUPS		NUM_ELEMENTS/LOCAL_SIZE
+#endif
 
 const char *			CL_FILE_NAME = { "mult.cl" };
 const float			TOL = 0.0001f;
@@ -137,7 +141,7 @@ main( int argc, char *argv[ ] )
 
 	// create the text for the kernel program:
 
-	char *strings[1];
+	 char *strings[1];
 	strings[0] = clProgramText;
 	cl_program program = clCreateProgramWithSource( context, 1, (const char **)strings, NULL, &status );
 	if( status != CL_SUCCESS )
@@ -190,8 +194,8 @@ main( int argc, char *argv[ ] )
 	time0 = omp_get_wtime( );
 
 	status = clEnqueueNDRangeKernel( cmdQueue, kernel, 1, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL );
-	if( status != CL_SUCCESS )
-		fprintf( stderr, "clEnqueueNDRangeKernel failed: %d\n", status );
+	//if( status != CL_SUCCESS )
+	//	fprintf( stderr, "clEnqueueNDRangeKernel failed: %d\n", status );
 
 	Wait( cmdQueue );
 	
@@ -218,7 +222,7 @@ main( int argc, char *argv[ ] )
 	}
 
 	fprintf( stderr, "%8d\t%4d\t%10d\t%10.3lf GigaMultsPerSecond\n",
-		NMB, LOCAL_SIZE, NUM_WORK_GROUPS, 2*(double)NUM_ELEMENTS/(time1-time0)/1000000000. );
+		NUM_ELEMENTS, LOCAL_SIZE, NUM_WORK_GROUPS, (double)NUM_ELEMENTS/(time1-time0)/1000000000. );
 
 #ifdef WIN32
 	Sleep( 2000 );
