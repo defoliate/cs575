@@ -25,7 +25,7 @@
 
 #define	NUM_WORK_GROUPS		GLOBAL_SIZE/LOCAL_SIZE
 
-const char *			CL_FILE_NAME = { "first.cl" };
+const char *			CL_FILE_NAME = { "mult.cl" };
 const float			TOL = 0.0001f;
 
 void				Wait( cl_command_queue );
