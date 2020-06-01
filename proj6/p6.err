@@ -1,35 +1,48 @@
-       1	   8	    131072	     2.187 GigaMultsPerSecond
-       2	   8	    262144	     3.227 GigaMultsPerSecond
-       3	   8	    393216	     3.296 GigaMultsPerSecond
-       4	   8	    524288	     3.574 GigaMultsPerSecond
-       5	   8	    655360	     3.888 GigaMultsPerSecond
-       6	   8	    786432	     4.017 GigaMultsPerSecond
-       7	   8	    917504	     4.082 GigaMultsPerSecond
-       1	  32	     32768	     3.968 GigaMultsPerSecond
-       2	  32	     65536	     5.679 GigaMultsPerSecond
-       3	  32	     98304	     7.738 GigaMultsPerSecond
-       4	  32	    131072	     9.107 GigaMultsPerSecond
-       5	  32	    163840	    10.117 GigaMultsPerSecond
-       6	  32	    196608	    10.803 GigaMultsPerSecond
-       7	  32	    229376	    10.942 GigaMultsPerSecond
-       1	 128	      8192	     4.373 GigaMultsPerSecond
-       2	 128	     16384	     8.430 GigaMultsPerSecond
-       3	 128	     24576	    10.647 GigaMultsPerSecond
-       4	 128	     32768	    12.658 GigaMultsPerSecond
-       5	 128	     40960	    15.962 GigaMultsPerSecond
-       6	 128	     49152	    17.738 GigaMultsPerSecond
-       7	 128	     57344	    19.276 GigaMultsPerSecond
-       1	 256	      4096	     4.458 GigaMultsPerSecond
-       2	 256	      8192	     8.141 GigaMultsPerSecond
-       3	 256	     12288	    11.168 GigaMultsPerSecond
-       4	 256	     16384	    13.688 GigaMultsPerSecond
-       5	 256	     20480	    12.708 GigaMultsPerSecond
-       6	 256	     24576	    17.936 GigaMultsPerSecond
-       7	 256	     28672	    16.817 GigaMultsPerSecond
-       1	 512	      2048	     4.509 GigaMultsPerSecond
-       2	 512	      4096	     8.341 GigaMultsPerSecond
-       3	 512	      6144	    10.959 GigaMultsPerSecond
-       4	 512	      8192	    13.584 GigaMultsPerSecond
-       5	 512	     10240	    15.554 GigaMultsPerSecond
-       6	 512	     12288	    15.645 GigaMultsPerSecond
-       7	 512	     14336	    19.266 GigaMultsPerSecond
+    1024	   8	       128	     0.014
+    1024	  32	        32	     0.025
+    1024	  64	        16	     0.026
+    1024	 128	         8	     0.021
+    1024	 256	         4	     0.020
+    1024	 512	         2	     0.019
+   32768	   8	      4096	     0.610
+   32768	  32	      1024	     0.728
+   32768	  64	       512	     0.713
+   32768	 128	       256	     0.690
+   32768	 256	       128	     0.673
+   32768	 512	        64	     0.617
+  131072	   8	     16384	     1.764
+  131072	  32	      4096	     2.580
+  131072	  64	      2048	     2.449
+  131072	 128	      1024	     2.639
+  131072	 256	       512	     2.707
+  131072	 512	       256	     2.054
+  262144	   8	     32768	     0.679
+  262144	  32	      8192	     0.013
+  262144	  64	      4096	     0.013
+  262144	 128	      2048	     0.783
+  262144	 256	      1024	     0.014
+  262144	 512	       512	     0.406
+  524288	   8	     65536	     1.228
+  524288	  32	     16384	     1.713
+  524288	  64	      8192	     0.026
+  524288	 128	      4096	     1.039
+  524288	 256	      2048	     0.025
+  524288	 512	      1024	     1.526
+ 1048576	   8	    131072	     1.337
+ 1048576	  32	     32768	     2.675
+ 1048576	  64	     16384	     2.718
+ 1048576	 128	      8192	     3.552
+ 1048576	 256	      4096	     2.963
+ 1048576	 512	      2048	     2.923
+ 4194304	   8	    524288	     3.545
+ 4194304	  32	    131072	     0.279
+ 4194304	  64	     65536	     8.698
+ 4194304	 128	     32768	     0.179
+ 4194304	 256	     16384	     0.173
+ 4194304	 512	      8192	    10.490
+ 8388608	   8	   1048576	     0.452
+ 8388608	  32	    262144	     0.422
+ 8388608	  64	    131072	    11.004
+ 8388608	 128	     65536	     0.456
+ 8388608	 256	     32768	     1.007
+ 8388608	 512	     16384	     0.206
