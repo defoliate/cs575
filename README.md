@@ -1,4 +1,4 @@
-Oregon State University Spring term 2020<br>
+Oregon State University (Spring term 2020)<br>
 Instructor: Professor Mike Bailey<br>
 Student: Qingxiao Yuan<br>
 
