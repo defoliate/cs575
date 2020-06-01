@@ -1,4 +1,4 @@
-#P6<br>
+#P6 NOTE<br>
 The following files are used in proj6:<br>
 cl.h,cl_platform.h,<br>
 mult.cl,mult.cpp,mult.sh,<br>
