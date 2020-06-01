@@ -1,5 +1,5 @@
 #P6<br>
-The following files are used in proj6.<br>
+The following files are used in proj6:<br>
 cl.h,cl_platform.h,<br>
 mult.cl,mult.cpp,mult.sh,<br>
 multAdd.cl,multAdd.cpp,multAdd.sh,<br>
