@@ -66,8 +66,10 @@ main( int argc, char *argv[ ] )
     // check for file
     FILE *fp1 = fopen("signal.txt", "r");
 
-    if(!fp1){
-        fprintf(stderr, "Error opening file\n");
+    if( fp == NULL )
+    {
+    	fprintf( stderr, "Cannot open file 'signal.txt'\n" );
+    	exit( 1 );
     }
 
     // read in size

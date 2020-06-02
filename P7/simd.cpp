@@ -15,9 +15,10 @@ int main() {
 
     FILE *fp = fopen("signal.txt", "r");
 
-    if(!fp){
-        fprintf(stderr, "Failed to open file\n");
-        exit(1);
+    if( fp == NULL )
+    {
+        fprintf( stderr, "Cannot open file 'signal.txt'\n" );
+        exit( 1 );
     }
 
     int size;

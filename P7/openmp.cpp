@@ -11,8 +11,10 @@ int main() {
 
     FILE *fp = fopen("signal.txt", "r");
 
-    if(!fp){
-        fprintf(stderr, "Error opening file\n");
+    if( fp == NULL )
+    {
+        fprintf( stderr, "Cannot open file 'signal.txt'\n" );
+        exit( 1 );
     }
 
     int size;
@@ -33,7 +35,7 @@ int main() {
     
     autoCorrelate(array, sums, size, 1);
     printf("\n\n\n\n\n");
-    autoCorrelate(array, sums, size, 16);
+    autoCorrelate(array, sums, size, 32);
     
     return 0;
 }
