@@ -3,8 +3,8 @@ Instructor: Prof. Mike Bailey<br>
 Student: Qingxiao Yuan (Raymond)<br>
 Thanks for prof. Bailey and Braxton, the TA who offered greatest help for me during this COVID-19 period.<br>
 
-**0. Simple OpenMP Experiment**
-**1. OpenMP: Monte Carlo Simulation**
+**0. Simple OpenMP Experiment**<br>
+**1. OpenMP: Monte Carlo Simulation**<br>
 **2. Numeric Integration with OpenMP Reduction**
 **3. Functional Decomposition**
 4. Vectorized Array Multiplication/Reduction using SSE
